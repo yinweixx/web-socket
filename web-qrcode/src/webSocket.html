@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Qrcode</title>
+</head>
+<body>
+<div id="message" style="font-size:40px"></div>
+<div style="width:100%">
+    <div id="img" style="width:800px;margin:0px auto"></div>
+</div>
+<script type="text/javascript">
+    var ws =
+      new WebSocket('ws://localhost:4567/qrcode');
+
+    ws.onerror = function(event) {
+      onError(event)
+    };
+
+    ws.onopen = function(event) {
+      onOpen(event)
+    };
+
+    ws.onmessage = function(event) {
+      onMessage(event)
+    };
+
+    function onMessage(event) {
+      document.getElementById('message').innerHTML="";
+      document.getElementById('img').innerHTML
+        = '<img style="margin:0px auto" src=' + event.data + '></img>';
+    }
+
+    function onOpen(event) {
+      document.getElementById('message').innerHTML
+        = 'Connection success,Please wait...';
+    }
+
+    function onError(event) {
+      alert(event.data);
+    }
+  </script>
+</body>
+</html>
